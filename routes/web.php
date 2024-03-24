@@ -21,5 +21,8 @@ Route::get('/kecamatan', [KecamatanDesaController::class, 'getKecamatan']);
 Route::get('/desa/{id_kec}', [KecamatanDesaController::class, 'getDesaByKecamatan']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard')->middleware('auth:biodata');
-Route::get('/dashboard_master', [DashboardController::class, 'index_master'])->name('admin.dashboard_master')->middleware('auth:biodata');
+Route::middleware(['auth:biodata', 'check.role'])->group(function () {
+    Route::get('/dashboard_master', [DashboardController::class, 'index_master'])->name('admin.dashboard_master');
+    Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+});
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
