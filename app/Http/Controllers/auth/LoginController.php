@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Biodata;
+
+class LoginController extends Controller
+{
+    public function index()
+    {
+        return view('auth.login');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'nik' => 'required|numeric',
+            'password' => 'required',
+        ]);
+
+        if (Auth::guard('biodata')->attempt($credentials, $request->remember)) {
+            $request->session()->regenerate();
+
+            // Check user role after login
+            $user = Auth::guard('biodata')->user();
+            if ($user->role === 'Admin Master') {
+                return redirect()->route('admin.dashboard_master'); // Redirect master user to master dashboard
+            } elseif ($user->role === 'Admin Desa') {
+                return redirect()->route('admin.dashboard'); // Redirect admin desa to their dashboard
+            }
+
+            // Default redirect for other roles
+            return redirect()->route('admin.dashboard');
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
+    }
+}
+
