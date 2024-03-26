@@ -21,7 +21,14 @@
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
       <img src="/asset/images/jember.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Admin</span>
+      @php
+        $role = auth()->user()->role;
+      @endphp
+      @if($role === 'Admin Master')
+      <span class="brand-text font-weight-bold">Master Admin</span>
+      @elseif($role === 'Admin Desa')
+      <span class="brand-text font-weight-bold">Admin Desa</span>
+      @endif
     </a>
 
     <!-- Sidebar -->
@@ -84,5 +91,102 @@
 <script src="/asset/dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/asset/dist/js/pages/dashboard.js"></script>
+<script src="adminlte/plugins/demo/demo.js" disabled></script>
+<script>
+        $(document).ready(function(){
+            $('#nik').on('input', function(){
+                var nikLength = $(this).val().length;
+                if(nikLength < 16){
+                    $('#nikWarning').text('NIK harus terdiri dari 16 digit').addClass('text-danger');
+                }else{
+                    $('#nikWarning').text('').removeClass('text-danger');
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            $('#togglePassword').on('click', function(){
+                var passwordInput = $('#password');
+                var passwordFieldType = passwordInput.attr('type');
+                if(passwordFieldType === 'password'){
+                    passwordInput.attr('type', 'text');
+                    $(this).html('<i class="fas fa-eye-slash"></i>');
+                }else{
+                    passwordInput.attr('type', 'password');
+                    $(this).html('<i class="fas fa-eye"></i>');
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $.get("/kecamatan", function(data){
+                $.each(data, function(index, kecamatan){
+                    $('#kecamatan').append('<option value="'+kecamatan.id+'">'+kecamatan.nama+'</option>');
+                });
+            });
+            $('#kecamatan').change(function(){
+                var id_kec = $(this).val();
+                $('#desa').empty();
+                $('#desa').append('<option value="">Pilih Desa</option>');
+                $.get("/desa/"+id_kec, function(data){
+                    $.each(data, function(index, desa){
+                        $('#desa').append('<option value="'+desa.id+'">'+desa.nama+'</option>');
+                    });
+                });
+            });
+        });
+    </script>
+<script>
+$(document).ready(function () {
+    // Menambahkan event click pada setiap link dengan class 'nav-link'
+    $('ul.nav-sidebar a.nav-link').click(function (e) {
+        // e.preventDefault(); // Mencegah perilaku default tautan
+        
+        // Menghapus kelas 'active' dari semua item menu
+        $('ul.nav-sidebar a.nav-link').removeClass('active');
+
+        // Menambahkan kelas 'active' ke item menu yang sedang di-klik
+        $(this).addClass('active');
+
+        // Memeriksa apakah sub-menu masih terbuka (menu-open)
+        var isSubMenuOpen = $(this).parent().hasClass('menu-open');
+
+        // Jika sub-menu terbuka, maka tambahkan kembali kelas 'active' ke tombol menu
+        if (isSubMenuOpen) {
+            $(this).closest('.has-treeview').children('.nav-link').addClass('active');
+        }
+
+        // Memeriksa apakah URL yang diklik sama dengan URL halaman saat ini
+        var currentURL = window.location.href;
+        var clickedURL = $(this).attr('href');
+
+        if (currentURL === clickedURL) {
+            $(this).addClass('active');
+        } else {
+            // Menggunakan AJAX untuk memuat konten halaman baru saat pengguna mengklik tautan menu
+            var url = $(this).attr('href');
+
+            // Memuat konten halaman baru dengan AJAX
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    // Mengganti konten halaman dalam elemen tertentu
+                    $('#content').html(data);
+                    // Ubah juga URL browser sesuai dengan tautan yang diklik
+                    window.history.pushState("", "", url);
+                }
+            });
+        }
+    });
+});
+
+
+
+</script>
+
+
 </body>
 </html>

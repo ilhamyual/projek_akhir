@@ -59,7 +59,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Right navbar links -->
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
         <li class="nav-item">
-            <a href="#home" class="nav-link">Home</a>
+            <a href="#" class="nav-link">Home</a>
         </li>
         <li class="nav-item">
             <a href="#services" class="nav-link">About</a>
@@ -75,7 +75,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section id="home" style="background-image: url('/asset/images/cta2-bg.jpg'); background-size: cover; background-position: center; padding: 150px 0;">
+    <section id="" style="background-image: url('/asset/images/cta2-bg.jpg'); background-size: cover; background-position: center; padding: 150px 0;">
     <div class="container">
         <div class="text-center">
             <h2 class="wow fadeInUp" data-wow-duration="300ms" data-wow-delay="0ms" style="font-weight: bold; font-size: 48px;"><span style="color: var(--primary);">PELAYANAN ADMINISTRASI</span> <span style="color: white;">DESA <br> KABUPATEN JEMBER</span></h2>
