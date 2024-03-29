@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\RegisterController;
+use App\Http\Controllers\pemohon\BerandaController;
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\DataMasyarakatController;
 use App\Http\Controllers\admin\BerkasPermohonanController;
@@ -34,6 +35,8 @@ Route::middleware(['auth:biodata', 'check.role'])->group(function () {
     Route::get('/dashboard_master', [DashboardMasterController::class, 'index'])->name('admin.dashboard_master');
     Route::get('/data_admindesa', [DataDesaController::class, 'index'])->name('admin.data_admindesa');
     Route::get('/templatesurat', [TemplateSuratController::class, 'index'])->name('admin.templatesurat');
+    Route::post('/templatesurat/store', [TemplateSuratController::class, 'store'])->name('berkas.store');
+    Route::delete('/berkas/{judul_berkas}/delete', [TemplateSuratController::class, 'destroy'])->name('berkas.delete');
     
     Route::get('/laporan_master', [LaporanMasterController::class, 'index'])->name('admin.laporan_master');
 
@@ -49,8 +52,10 @@ Route::middleware(['auth:biodata', 'adminDesa'])->group(function(){
 
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 });
-// Route::middleware(['auth', 'Admin Master'])->group(function(){
-//     Route::get('/dashboard_master', [DashboardMasterController::class, 'index'])->name('admin.dashboard_master');
-// });
+Route::middleware(['auth:biodata', 'isPemohon'])->group(function(){
+    Route::get('/beranda', [BerandaController::class, 'index'])->name('pemohon.dashboard');
+    Route::get('/request/{id_berkas}/{judul_berkas}', [BerandaController::class, 'newRequest'])->name('user.request');
+    Route::post('/request', [BerandaController::class, 'tambahRequest'])->name('user.tambah.request');
+});
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 Route::get('/ckeditor', [TemplateSuratController::class, 'showCKEditor']);

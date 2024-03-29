@@ -26,10 +26,19 @@ class LoginController extends Controller
 
             // Check user role after login
             $user = Auth::guard('biodata')->user();
+
+            $request->session()->put('nama', $user->nama);
+            $request->session()->put('password', $user->password);
+            $request->session()->put('nik', $user->nik);
+            $request->session()->put('id_kec', $user->id_kec);
+            $request->session()->put('id_desa', $user->id_desa);
+
             if ($user->role === 'Admin Master') {
                 return redirect()->route('admin.dashboard_master'); // Redirect master user to master dashboard
             } elseif ($user->role === 'Admin Desa') {
                 return redirect()->route('admin.dashboard'); // Redirect admin desa to their dashboard
+            }elseif ($user->role === 'Pemohon') {
+                return redirect()->route('pemohon.dashboard'); // Redirect admin desa to their dashboard
             }
 
             // Default redirect for other roles

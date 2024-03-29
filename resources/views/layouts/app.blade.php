@@ -28,6 +28,8 @@
       <span class="brand-text font-weight-bold">Master Admin</span>
       @elseif($role === 'Admin Desa')
       <span class="brand-text font-weight-bold">Admin Desa</span>
+      @elseif($role === 'Pemohon')
+      <span class="brand-text font-weight-bold">Pemohon</span>
       @endif
     </a>
 

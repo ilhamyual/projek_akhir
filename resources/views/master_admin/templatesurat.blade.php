@@ -45,7 +45,28 @@
                           <th style="width: 10%">Action</th>
                       </thead>
                       <tbody>
-
+                        @foreach($master_berkas as $index => $berkas)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $berkas->judul_berkas }}</td>
+                            <td>{{ $berkas->kode_berkas }}</td>
+                            <td>{{ $berkas->kode_belakang }}</td>
+                            <td>
+                                <div class="form-button-action">
+                                    <a href="#" type="button" data-toggle="tooltip" title="" class="btn btn-primary btn-sm" data-original-title="Edit Berkas">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <form action="{{ route('berkas.delete', $berkas->id_berkas) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm" data-original-title="Hapus Berkas">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
                       </tbody>
                   </table>
               </div>
@@ -65,19 +86,20 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST">
+            <form method="POST" action="{{ route('berkas.store') }}">
+                @csrf
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Judul</label>
-                        <input type="jenis" name="judul_berkas" class="form-control" placeholder="Jenis Surat..">
+                        <input type="text" name="judul_berkas" class="form-control" placeholder="Jenis Surat..">
                     </div>
                     <div class="form-group">
                         <label>Kode Berkas</label>
-                        <input type="kode_berkas" name="kode_berkas" class="form-control" placeholder="Kode Berkas.." autofocus>
+                        <input type="text" name="kode_berkas" class="form-control" placeholder="Kode Berkas.." autofocus>
                     </div>
                     <div class="form-group">
                         <label>Kode Belakang</label>
-                        <input type="kode_belakang" name="kode_belakang" class="form-control" placeholder="Kode Belakang..">
+                        <input type="text" name="kode_belakang" class="form-control" placeholder="Kode Belakang..">
                     </div>
                     <div class="form-group">
                         <label>Template Surat</label>
@@ -92,13 +114,13 @@
                     </div>
                     <div class="form-group">
                         <label>Form Tambahan</label>
-                        <input type="form_tambahan" name="form_tambahan" class="form-control" placeholder="Form Tambahan.."></input>
+                        <input type="text" name="form_tambahan" class="form-control" placeholder="Form Tambahan.."></input>
                         <label>*Jika menambahkan Form tambahan supaya menggunakan Spasi</label>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button name="simpan" class="btn btn-success">Simpan</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                    <button type="submit" name="simpan" class="btn btn-success">Simpan</button>
                 </div>
             </form>
         </div>
