@@ -28,8 +28,9 @@ class DashboardController extends Controller
     $user = auth()->user();
     $id_desa = $user->desa;
 
-    // Ambil data permohonan yang sesuai dengan desa admin
+    // Ambil data permohonan yang sesuai dengan desa admin dan id_berkas yang diberikan
     $requests = DataRequest::where('id_desa', $id_desa)
+                           ->where('id_berkas', $id_berkas) // Filter berdasarkan id_berkas
                            ->join('biodata', 'data_requests.nik', '=', 'biodata.nik')
                            ->select('data_requests.*', 'biodata.nama as nama')
                            ->get();
@@ -40,6 +41,7 @@ class DashboardController extends Controller
         'requests' => $requests, // Mengirimkan data permohonan ke view
     ]);
 }
+
 
 
     

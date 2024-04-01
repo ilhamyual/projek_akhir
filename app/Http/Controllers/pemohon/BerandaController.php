@@ -16,6 +16,7 @@ class BerandaController extends Controller
         $master_berkas = Berkas::select('id_berkas', 'judul_berkas')->get();
         return view('pemohon.dashboard', compact('nama', 'master_berkas'));
     }
+    
     public function newRequest(Request $request, $id_berkas, $judul_berkas)
     {
         $user = auth()->user(); // Mendapatkan data user yang sedang login
