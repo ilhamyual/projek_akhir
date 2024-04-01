@@ -1,20 +1,14 @@
 @extends('layouts.app')
 @php
-    $title = 'Berkas Permohonan';
+    $title = 'Permohonan Surat';
 @endphp
-@section('title', 'Berkas Permohonan')
+@section('title', 'Permohonan Surat')
 @section('content')
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Berkas Permohonan</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <!-- <li class="breadcrumb-item"><a href="#">Home</a></li> -->
-              <li class="breadcrumb-item active">Berkas Permohonan</li>
-            </ol>
+            <h1 class="m-0">DAFTAR REQUEST {{ strtoupper($judul_berkas) }}</h1>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -24,12 +18,16 @@
       <div class="row">
       <div class="col-12">
         <div class="card">
-          <!-- <div class="card-header">
+          <div class="card-header">
+              
 
               <div class="float-right">
-                  
+                <button class="btn btn-sm btn-success" id="btn-add-new"  type="button" data-toggle="modal" data-target="#modalTambahMasyarakat">
+                      <i class="fas fa-plus"></i>
+                      Tambah Request
+                </button>
               </div>
-          </div> -->
+          </div>
           <div class="card-body">
               <div class="table-responsive">
                   <table class="table table-striped table-hover" id="table-list">
@@ -38,9 +36,9 @@
                         <th>Tanggal Request</th>
                         <th>NIK</th>
                         <th>Nama Lengkap</th>
-                        <th>Keterangan</th>
+                        <th>Catatan</th>
                         <th>Status</th>
-                        <th style="width: 10%">Action</th>
+                        <th style="width: 15%">Action</th>
                       </thead>
                       <tbody>
 

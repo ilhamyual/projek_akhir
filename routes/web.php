@@ -33,6 +33,7 @@ Route::get('/desa/{id_kec}', [KecamatanDesaController::class, 'getDesaByKecamata
 // Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard')->middleware('auth:biodata');
 Route::middleware(['auth:biodata', 'check.role'])->group(function () {
     Route::get('/dashboard_master', [DashboardMasterController::class, 'index'])->name('admin.dashboard_master');
+    Route::get('/dashboard_master/{id_berkas}/{judul_berkas}', [DashboardMasterController::class, ''])->name('master.request');
     Route::get('/data_admindesa', [DataDesaController::class, 'index'])->name('admin.data_admindesa');
     Route::get('/templatesurat', [TemplateSuratController::class, 'index'])->name('admin.templatesurat');
     Route::post('/templatesurat/store', [TemplateSuratController::class, 'store'])->name('berkas.store');
@@ -44,6 +45,7 @@ Route::middleware(['auth:biodata', 'check.role'])->group(function () {
 });
 Route::middleware(['auth:biodata', 'adminDesa'])->group(function(){
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/dashboard/{id_berkas}/{judul_berkas}', [DashboardController::class, 'adminRequest'])->name('admin.request');
     Route::get('/data_masyarakat', [DataMasyarakatController::class, 'index'])->name('admin.data_masyarakat');
     Route::get('/berkas_permohonan', [BerkasPermohonanController::class, 'index'])->name('admin.berkas_permohonan');
     Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan');

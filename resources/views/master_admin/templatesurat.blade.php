@@ -25,7 +25,7 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-              Daftar {{$title}}
+             
 
               <div class="float-right">
                   <button class="btn btn-sm btn-success" id="btn-add-new " type="button" data-toggle="modal" data-target="#modalTambahTemplate">
@@ -42,7 +42,7 @@
                           <th>Judul Berkas</th>
                           <th>Kode Berkas</th>
                           <th>Kode Belakang</th>
-                          <th style="width: 10%">Action</th>
+                          <th style="width: 15%">Action</th>
                       </thead>
                       <tbody>
                         @foreach($master_berkas as $index => $berkas)
@@ -52,15 +52,16 @@
                             <td>{{ $berkas->kode_berkas }}</td>
                             <td>{{ $berkas->kode_belakang }}</td>
                             <td>
+
                                 <div class="form-button-action">
                                     <a href="#" type="button" data-toggle="tooltip" title="" class="btn btn-primary btn-sm" data-original-title="Edit Berkas">
-                                        <i class="fa fa-edit"></i>
+                                        <i class="fa fa-edit">Edit</i>
                                     </a>
                                     <form action="{{ route('berkas.delete', $berkas->id_berkas) }}" method="POST" style="display: inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm" data-original-title="Hapus Berkas">
-                                                <i class="fa fa-trash"></i>
+                                                <i class="fa fa-trash">Hapus</i>
                                             </button>
                                         </form>
                                 </div>

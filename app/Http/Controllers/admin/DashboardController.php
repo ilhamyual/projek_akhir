@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Berkas;
+use App\Models\DataRequest;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -16,10 +17,25 @@ class DashboardController extends Controller
         $id_desa = $user->desa;
 
         $master_berkas = Berkas::all();
-        $card_array = ['icon-primary','icon-success','icon-warning','icon-secondary','icon-danger'];
+        $card_array = ['bg-info','bg-success','bg-warning','bg-danger'];
 
 
         return view('admin.dashboard', compact('master_berkas', 'id_kec', 'id_desa', 'card_array'));
+    }
+    public function adminRequest(Request $request, $id_berkas, $judul_berkas)
+    {
+        // $user = auth()->user(); // Mendapatkan data user yang sedang login
+        // $nik = $user->nik;
+        // $nama = $user->nama;
+        $user = auth()->user();
+        // $requestbaru = DataRequest::where('desa', $userDesa)->where('status', '0')->get();
+
+        return view('admin.request', [
+            'id_berkas' => $id_berkas,
+            'judul_berkas' => $judul_berkas,
+        ]);
+
+        
     }
 
     
