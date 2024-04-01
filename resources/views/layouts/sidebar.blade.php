@@ -8,7 +8,7 @@
                with font-awesome or any other icon font library -->
           @if($role === 'Admin Master')
           <li class="nav-item">
-            <a href="{{route('admin.dashboard_master')}}" class="nav-link active {{ Request::is('admin/dashboard_master') ? 'active' : '' }}">
+            <a href="{{route('admin.dashboard_master')}}" class="nav-link {{ Request::is('http://127.0.0.1:8000/dashboard_master') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                     Dashboard
@@ -17,7 +17,7 @@
           </li>
           <li class="nav-header">MENU</li>
           <li class="nav-item">
-              <a href="{{route('admin.data_admindesa')}}" class="nav-link {{ Request::is('admin/data_admindesa') ? 'active' : '' }}">
+              <a href="{{route('admin.data_admindesa')}}" class="nav-link {{ Request::is('http://127.0.0.1:8000/data_admindesa') ? 'active' : '' }}">
                   <i class="nav-icon fas fa-users"></i>
                   <p>
                       Data Admin Desa

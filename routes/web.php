@@ -34,9 +34,7 @@ Route::middleware(['auth:biodata', 'check.role'])->group(function () {
     Route::get('/dashboard_master', [DashboardMasterController::class, 'index'])->name('admin.dashboard_master');
     Route::get('/data_admindesa', [DataDesaController::class, 'index'])->name('admin.data_admindesa');
     Route::get('/templatesurat', [TemplateSuratController::class, 'index'])->name('admin.templatesurat');
-    
     Route::get('/laporan_master', [LaporanMasterController::class, 'index'])->name('admin.laporan_master');
-
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 });
 Route::middleware(['auth:biodata', 'adminDesa'])->group(function(){
@@ -46,7 +44,6 @@ Route::middleware(['auth:biodata', 'adminDesa'])->group(function(){
     Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan');
     Route::get('/biodata_desa', [BiodataDesaController::class, 'index'])->name('admin.biodata_desa');
     Route::get('/pejabat_desa', [PejabatDesaController::class, 'index'])->name('admin.pejabat_desa');
-
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 });
 // Route::middleware(['auth', 'Admin Master'])->group(function(){

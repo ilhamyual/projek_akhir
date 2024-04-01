@@ -42,12 +42,35 @@
                           <th>No.</th>
                           <th>NIK</th>
                           <th>Nama</th>
-                          <th>Email</th>
-                          <th>No Hp</th>
-                          <th>Opsi</th>
+                          <th>Jenis Kelamin</th>
+                          <th>Kecamatan</th>
+                          <th>Desa</th>
+                          <th>Action</th>
                       </thead>
                       <tbody>
-
+                      @foreach($biodatas as $index => $biodata)
+<tr>
+    <td>{{ $index + 1 }}</td>
+    <td>{{ $biodata->nik }}</td>
+    <td>{{ $biodata->nama }}</td>
+    <td>{{ $biodata->jekel }}</td>
+    <td>{{ $biodata->kecamatan }}</td>
+    <td>{{ $biodata->desa }}</td>
+    <td>
+        <!-- Tambahkan tombol untuk opsi, misalnya: edit, hapus, dll -->
+        <!-- Contoh tombol edit -->
+        <button class="btn btn-sm btn-primary" data-id="{{ $biodata->id }}" data-nik="{{ $biodata->NIK }}" data-nama="{{ $biodata->nama }}" data-email="{{ $biodata->email }}" data-kecamatan="{{ $biodata->kecamatan }}" data-desa="{{ $biodata->desa }}" data-toggle="modal" data-target="#modalEditAdminDesa">
+            <i class="fas fa-edit"></i>
+            Edit
+        </button>
+        <!-- Contoh tombol hapus -->
+        <button class="btn btn-sm btn-danger" data-id="{{ $biodata->id }}" data-toggle="modal" data-target="#modalHapusAdminDesa">
+            <i class="fas fa-trash"></i>
+            Hapus
+        </button>
+    </td>
+</tr>
+@endforeach
                       </tbody>
                   </table>
               </div>
@@ -124,13 +147,13 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Daftar</button>
+                    <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+    <button type="submit" class="btn btn-primary float-right">Daftar</button>
+</div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-primary">Daftar</button>
-            </div>
+            
         </div>
     </div>
 </div>

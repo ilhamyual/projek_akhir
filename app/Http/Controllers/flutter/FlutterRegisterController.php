@@ -1,22 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\auth;
+namespace App\Http\Controllers\flutter;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Biodata;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Biodata;
 use App\Models\KecamatanDesa;
 use App\Models\Desa;
 
-class RegisterController extends Controller
+class FlutterRegisterController extends Controller
 {
-    public function index()
-    {
-        return view('auth.register');
-    }
-
     public function register(Request $request)
     {
         $validatedData = $request->validate([
@@ -30,13 +24,13 @@ class RegisterController extends Controller
             'password' => 'required|string|min:8',
         ]);
 
-        // Ambil ID kecamatan dan desa dari formulir
-        $kecamatanId = $validatedData['kecamatan'];
-        $desaId = $validatedData['desa'];
+        // Ambil nama kecamatan dan desa dari formulir
+        $kecamatanNama = $validatedData['kecamatan'];
+        $desaNama = $validatedData['desa'];
 
-        // Ambil nama kecamatan dan desa berdasarkan ID
-        $kecamatan = KecamatanDesa::find($kecamatanId);
-        $desa = Desa::find($desaId);
+        // Ambil kecamatan dan desa dari database
+        $kecamatan = KecamatanDesa::where('nama', $kecamatanNama)->first();
+        $desa = Desa::where('nama', $desaNama)->first();
 
         if ($kecamatan && $desa) {
             $biodata = Biodata::create([
@@ -51,10 +45,14 @@ class RegisterController extends Controller
                 'role' => 'Pemohon',
             ]);
             
-            Auth::login($biodata);          
-            return back()->with('success', 'Registrasi berhasil');
+            return response()->json([
+                'message' => 'Registrasi berhasil',
+                'user' => $biodata,
+            ], 200);
         } else {
-            return back()->withInput()->withErrors(['error' => 'Kecamatan atau desa tidak valid']);
+            return response()->json([
+                'error' => 'Kecamatan atau desa tidak valid'
+            ], 400);
         }
     }
 }
