@@ -99,6 +99,32 @@
               </li>
             </ul>
           </li>
+          @elseif($role === 'Pemohon')
+          <li class="nav-item menu-open">
+            <a href="{{route('admin.dashboard')}}" class="nav-link active">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+          </li>
+          <li class="nav-header">MENU</li>
+          <li class="nav-item">
+            <a href="{{route('admin.data_masyarakat')}}" class="nav-link">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                    Biodata
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{route('admin.berkas_permohonan')}}" class="nav-link">
+                <i class="nav-icon fas fa-file"></i>
+                <p>
+                    Status Permohonan
+                </p>
+            </a>
+        </li>
           @endif
         </ul>
       </nav>

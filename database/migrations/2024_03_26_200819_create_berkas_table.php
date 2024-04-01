@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('kode_belakang', 10);
             $table->text('template');
             $table->string('form_tambahan', 255)->default('0');
-            $table->string('desa', 20);
             $table->timestamps();
         });
     }

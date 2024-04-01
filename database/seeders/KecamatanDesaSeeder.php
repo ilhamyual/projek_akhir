@@ -298,7 +298,7 @@ class KecamatanDesaSeeder extends Seeder
         ['730','JUMERTO'],
         ['730','BANJARSENGON'],
         
-        ];
+         ];
 
         // foreach ($data as $item) {
         //     KecamatanDesa::create([

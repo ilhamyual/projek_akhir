@@ -23,7 +23,8 @@ return new class extends Migration
             $table->date('acc')->nullable();
             $table->string('form_tambahan', 255)->default('0');
             $table->integer('no_urut')->nullable();
-            $table->string('desa', 20);
+            $table->string('id_kec', 20);
+            $table->string('id_desa', 20);
             $table->timestamps();
         });
     }
