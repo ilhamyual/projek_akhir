@@ -34,40 +34,36 @@ class BerandaController extends Controller
         
     }
     public function tambahRequest(Request $request)
-    {
-        // Validasi data jika diperlukan
-        $validatedData = $request->validate([
-            'id_berkas' => 'required|string|max:20',
-            'nik' => 'required|string|max:16',
-            'keterangan' => 'required|string',
-            'form_tambahan' => 'nullable|string|max:255',
-            // tambahkan validasi untuk input lainnya sesuai kebutuhan
-        ]);
-        // Inisialisasi variabel untuk menyimpan data form tambahan
-        $masukan = '';
-        foreach ($request->all() as $key => $value) {
-            if (!in_array($key, ['_token', 'nik', 'id_berkas', 'keterangan'])) {
-                $variabel = str_replace(" ", "_", $key);
-                $masukan .= $variabel . ':' . $value . ',';
-            }
+{
+    // Validasi data jika diperlukan
+    $validatedData = $request->validate([
+        'id_berkas' => 'required|string|max:20',
+        'keterangan' => 'required|string',
+        'form_tambahan' => 'nullable|string|max:255',
+    ]);
+
+    // Inisialisasi variabel untuk menyimpan data form tambahan
+    $masukan = '';
+    foreach ($request->all() as $key => $value) {
+        if (!in_array($key, ['_token', 'nama', 'nik', 'id_berkas', 'keterangan', 'kirim'])) {
+            $variabel = str_replace(" ", "_", $key);
+            $masukan .= $variabel . ':' . $value;
         }
-
-
-        // Simpan data request ke database
-        $dataRequest = new DataRequest();
-        $dataRequest->nik = $request->nik;
-        $dataRequest->id_berkas = $validatedData['id_berkas'];
-        $dataRequest->keterangan = $validatedData['keterangan'];
-        $dataRequest->form_tambahan = $masukan;
-        $dataRequest->status = 0;
-        // $dataRequest->form_tambahan = json_encode($form_tambahan);
-        $dataRequest->id_kec = auth()->user()->kecamatan;
-        $dataRequest->id_desa = auth()->user()->desa;
-        $dataRequest->save();
-
-        // Redirect ke halaman beranda jika berhasil
-        return redirect()->route('pemohon.dashboard')->with('success', 'Request berhasil dikirim');
- 
-
     }
+
+    // Simpan data request ke database
+    $dataRequest = new DataRequest();
+    $dataRequest->nik = $request->nik;
+    $dataRequest->id_berkas = $validatedData['id_berkas'];
+    $dataRequest->keterangan = $validatedData['keterangan'];
+    $dataRequest->form_tambahan = $masukan;
+    $dataRequest->status = 0;
+    $dataRequest->id_kec = auth()->user()->kecamatan;
+    $dataRequest->id_desa = auth()->user()->desa;
+    $dataRequest->save();
+
+    // Redirect ke halaman beranda jika berhasil
+    return redirect()->route('pemohon.dashboard')->with('success', 'Request berhasil dikirim');
+}
+
 }

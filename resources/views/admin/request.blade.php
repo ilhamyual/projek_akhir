@@ -41,8 +41,33 @@
                         <th style="width: 15%">Action</th>
                       </thead>
                       <tbody>
-
-                      </tbody>
+                @foreach($requests as $index => $request)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $request->tanggal_request }}</td>
+                        <td>{{ $request->nik }}</td>
+                        <td>{{ $request->nama }}</td>
+                        <td>{{ $request->form_tambahan }}</td>
+                        <td>
+            @if($request->status == 0)
+                Pending
+            @elseif($request->status == 1)
+                Selesai
+            @else
+                Status tidak valid
+            @endif
+        </td>
+                        <td>
+            <a href="#" class="btn btn-sm btn-primary">
+                <i class="fas fa-check"></i>
+            </a>
+            <a href="#" class="btn btn-sm btn-warning">
+                <i class="fas fa-pencil-alt"></i>
+            </a>
+        </td>
+                    </tr>
+                @endforeach
+            </tbody>
                   </table>
               </div>
           </div>

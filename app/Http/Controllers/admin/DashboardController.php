@@ -22,21 +22,25 @@ class DashboardController extends Controller
 
         return view('admin.dashboard', compact('master_berkas', 'id_kec', 'id_desa', 'card_array'));
     }
+
     public function adminRequest(Request $request, $id_berkas, $judul_berkas)
-    {
-        // $user = auth()->user(); // Mendapatkan data user yang sedang login
-        // $nik = $user->nik;
-        // $nama = $user->nama;
-        $user = auth()->user();
-        // $requestbaru = DataRequest::where('desa', $userDesa)->where('status', '0')->get();
+{
+    $user = auth()->user();
+    $id_desa = $user->desa;
 
-        return view('admin.request', [
-            'id_berkas' => $id_berkas,
-            'judul_berkas' => $judul_berkas,
-        ]);
+    // Ambil data permohonan yang sesuai dengan desa admin
+    $requests = DataRequest::where('id_desa', $id_desa)
+                           ->join('biodata', 'data_requests.nik', '=', 'biodata.nik')
+                           ->select('data_requests.*', 'biodata.nama as nama')
+                           ->get();
 
-        
-    }
+    return view('admin.request', [
+        'id_berkas' => $id_berkas,
+        'judul_berkas' => $judul_berkas,
+        'requests' => $requests, // Mengirimkan data permohonan ke view
+    ]);
+}
+
 
     
 }
