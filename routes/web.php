@@ -40,7 +40,7 @@ Route::middleware(['auth:biodata', 'check.role'])->group(function () {
     Route::delete('/berkas/{judul_berkas}/delete', [TemplateSuratController::class, 'destroy'])->name('berkas.delete');
     
     Route::get('/laporan_master', [LaporanMasterController::class, 'index'])->name('admin.laporan_master');
-
+    Route::get('/biodata_master', [DashboardMasterController::class, 'master'])->name('admin.biodata_master');
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 });
 Route::middleware(['auth:biodata', 'adminDesa'])->group(function(){

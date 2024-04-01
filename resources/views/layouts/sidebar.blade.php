@@ -40,6 +40,12 @@
                   </p>
               </a>
           </li>
+              <li class="nav-item">
+                <a href="{{route('admin.biodata_master')}}" class="nav-link">
+                  <i class="nav-icon fas fa-user"></i>
+                  <p>Biodata Master Admin</p>
+                </a>
+              </li>
 
           @elseif($role === 'Admin Desa')
           <li class="nav-item menu-open">
