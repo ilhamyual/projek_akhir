@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\flutter;
 
 use App\Http\Controllers\Controller;
+use App\Models\Biodata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Biodata;
 
-class FlutterLoginController extends Controller
+class AuthController extends Controller
 {
     public function login(Request $request)
     {
@@ -29,7 +29,7 @@ class FlutterLoginController extends Controller
         ], 401);
     }
 
-public function profile($nik)
+    public function profile($nik)
     {
         $user = Biodata::where('nik', $nik)->first();
 
@@ -47,5 +47,4 @@ public function profile($nik)
             'desa' => $user->desa,
         ]);
     }
-
 }

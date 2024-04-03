@@ -6,6 +6,7 @@ use App\Http\Controllers\flutter\FlutterLoginController;
 use App\Http\Controllers\flutter\FlutterRegisterController;
 use App\Http\Controllers\flutter\FlutterBiodataController;
 use App\Http\Controllers\KecamatanDesaController;
+use App\Http\Controllers\flutter\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,11 @@ Route::post('/login_flutter', [FlutterLoginController::class, 'login']);
 Route::post('/register_flutter', [FlutterRegisterController::class, 'register']);
 Route::get('/kecamatan', [KecamatanDesaController::class, 'getKecamatan']);
 Route::get('/desa/{id_kec}', [KecamatanDesaController::class, 'getDesaByKecamatan']);
-Route::get('/biodata', [FlutterBiodataController::class, 'index']);
+// Route::get('/biodata/{nik}', [FlutterBiodataController::class, 'index']);
+
+
+Route::post('/login_flut', [AuthController::class, 'login']);
+Route::get('/profile/{nik}', [FlutterLoginController::class, 'profile']);
+
 
 // Route::get('/login', [LoginController::class, 'index'])->name('login');
