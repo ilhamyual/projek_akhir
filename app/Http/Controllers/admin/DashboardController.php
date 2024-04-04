@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Berkas;
 use App\Models\DataRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -40,8 +41,25 @@ class DashboardController extends Controller
         'judul_berkas' => $judul_berkas,
         'requests' => $requests, // Mengirimkan data permohonan ke view
     ]);
-}
 
+}
+public function edit($id_request, $id_berkas, $judul_berkas)
+{
+    // Fetch data for the form
+    $data = DB::table('data_requests')
+    ->join('biodata', 'data_requests.nik', '=', 'biodata.nik')
+    ->select('data_requests.*', 'biodata.*')
+    ->where('data_requests.id_request', $id_request)
+    ->first();
+    // dd($data);
+
+    // Return the view with data
+    return view('admin.review', [
+        'data' => $data,
+        'id_berkas' => $id_berkas,
+        'judul_berkas' => $judul_berkas,
+    ]);
+}
 
 
     

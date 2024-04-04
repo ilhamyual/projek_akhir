@@ -16,4 +16,9 @@ class BiodataDesaController extends Controller
         $biodatas = Biodata::where('nik', $user)->get();
         return view('admin.biodatadesa', compact('biodatas'));
     }
+    public function ubah($nik)
+    {
+        $data = Biodata::where('nik', $nik)->first();
+        return view('admin.ubahdesa', compact('data'));
+    }
 }

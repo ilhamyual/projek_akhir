@@ -31,7 +31,7 @@
 
               <div class="info-box-content">
               <a href="{{ route('admin.request', ['id_berkas' => $berkas->id_berkas, 'judul_berkas' => $berkas->judul_berkas]) }}">
-                <span class="info-box-text">{{ $berkas->judul_berkas }}</span>
+                <span class="info-box-text" style="color: black;">{{ $berkas->judul_berkas }}</span>
                 @php
                     $jumlah_req = App\Models\DataRequest::where('id_berkas', $berkas->id_berkas)
                         ->where('status', 0)
@@ -39,7 +39,7 @@
                         })
                           ->count();
                 @endphp
-                <span class="info-box-number">{{ $jumlah_req }}</span>
+                <span class="info-box-number" style="color: black;">{{ $jumlah_req }}</span>
                 </a>
               </div>
               <!-- /.info-box-content -->

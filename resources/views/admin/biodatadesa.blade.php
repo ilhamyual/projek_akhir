@@ -22,19 +22,20 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-              Biodata Admin Desa
               <div class="float-right">
-                  <button class="btn btn-sm btn-success" id="btn-add-new"  type="button" data-toggle="modal" data-target="#modalBiodataModalt">
-                      <i class="fas fa-edit"></i>
-                      Ubah Biodata
-                  </button>
+              @foreach($biodatas as $index => $biodata)
+              <a href="{{ route('ubah.desa', [$biodata->nik]) }}" class="btn btn-sm btn-warning btn-round ml-auto">
+                  <i class="fa fa-edit"></i>
+                  Ubah Biodata
+              </a>
+
               </div>
           </div>
           <div class="card-body">
               <div class="table-responsive">
               <table class="table table-bordered">
                         <thead>
-                        @foreach($biodatas as $index => $biodata)
+                        
                             <tr>
                                 <th>NIK</th>
                                 

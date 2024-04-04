@@ -19,9 +19,20 @@ return new class extends Migration
             $table->string('kecamatan');
             $table->string('desa');
             $table->string('kota');
+            $table->string('tempat_lahir', 30)->nullable();
             $table->date('tgl_lahir');
             $table->string('password');
             $table->enum('role', ['Pemohon', 'Admin Master', 'Admin Desa'])->default('Pemohon');
+            $table->string('agama', 20)->nullable();
+            $table->text('alamat')->nullable();
+            $table->string('telepon', 13)->nullable();
+            $table->string('idpekerjaan', 20)->nullable();
+            $table->string('status_warga', 30)->nullable();
+            $table->string('warganegara', 10)->nullable();
+            $table->string('status_nikah', 20)->nullable();
+            $table->string('rt', 10)->nullable();
+            $table->string('rw', 10)->nullable();
+            $table->string('kodepos', 20)->nullable();
             $table->timestamps();
         });
     }
