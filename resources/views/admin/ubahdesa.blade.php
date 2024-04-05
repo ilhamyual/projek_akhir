@@ -95,19 +95,13 @@
                                     </div>
                                     <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Kecamatan</label>
-                                        <select name="kecamatan" id="kecamatan" class="form-control">
-                                            <!-- Looping untuk menampilkan opsi kecamatan -->
-                                            
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Desa</label>
-                                        <select name="desa" class="form-control">
-                                            <!-- Looping untuk menampilkan opsi desa -->
-                                            
-                                        </select>
-                                    </div>
+                                            <label>Kecamatan</label>
+                                            <input type="text" class="form-control" value="{{ $data->kecamatan }}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Desa</label>
+                                            <input type="text" class="form-control" value="{{ $data->desa }}" readonly>
+                                        </div>
                                     <div class="form-group">
                                         <label>RT</label>
                                         <input type="number" name="rt" class="form-control" value="{{ $data->rt }}" placeholder="RT Anda..">
@@ -139,5 +133,24 @@
                 </div>
             </div>
             </div>
+            <script>
+        $(document).ready(function(){
+            $.get("/kecamatan", function(data){
+                $.each(data, function(index, kecamatan){
+                    $('#kecamatan').append('<option value="'+kecamatan.id+'">'+kecamatan.nama+'</option>');
+                });
+            });
+            $('#kecamatan').change(function(){
+                var id_kec = $(this).val();
+                $('#desa').empty();
+                $('#desa').append('<option value="">Pilih Desa</option>');
+                $.get("/desa/"+id_kec, function(data){
+                    $.each(data, function(index, desa){
+                        $('#desa').append('<option value="'+desa.id+'">'+desa.nama+'</option>');
+                    });
+                });
+            });
+        });
+    </script>
         </section>
 @endsection

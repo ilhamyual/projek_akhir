@@ -38,7 +38,6 @@ Route::middleware(['auth:biodata', 'check.role'])->group(function () {
     Route::get('/templatesurat', [TemplateSuratController::class, 'index'])->name('admin.templatesurat');
     Route::post('/templatesurat/store', [TemplateSuratController::class, 'store'])->name('berkas.store');
     Route::delete('/berkas/{judul_berkas}/delete', [TemplateSuratController::class, 'destroy'])->name('berkas.delete');
-    
     Route::get('/laporan_master', [LaporanMasterController::class, 'index'])->name('admin.laporan_master');
     Route::get('/biodata_master', [DashboardMasterController::class, 'master'])->name('admin.biodata_master');
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
@@ -54,7 +53,7 @@ Route::middleware(['auth:biodata', 'adminDesa'])->group(function(){
     Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan');
     Route::get('/biodata_desa', [BiodataDesaController::class, 'index'])->name('admin.biodata_desa');
     Route::get('/biodata_desa/{nik}', [BiodataDesaController::class, 'ubah'])->name('ubah.desa');
-    Route::put('/biodata/{nik}', [BiodataController::class, 'update'])->name('biodata.update');
+    Route::put('/biodata_desa/{nik}', [BiodataDesaController::class, 'update'])->name('biodata.update');
     Route::get('/pejabat_desa', [PejabatDesaController::class, 'index'])->name('admin.pejabat_desa');
 
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');

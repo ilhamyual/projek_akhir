@@ -13,6 +13,24 @@ class Biodata extends Authenticatable
     use HasApiTokens;
     protected $table = 'biodata';
     protected $fillable = [
-        'id','nik', 'nama', 'jekel', 'kecamatan', 'desa', 'kota', 'tgl_lahir', 'password',
+        'nik',
+        'nama',
+        'jekel',
+        'tempat_lahir',
+        'tgl_lahir',
+        'idpekerjaan',
+        'agama',
+        'kota',
+        'kecamatan',
+        'desa',
+        'warganegara',
+        'status_nikah',
+        'status_warga',
+        'rt',
+        'rw',
+        'alamat',
+        'telepon',
+        'email',
+        'password',
     ];
 }

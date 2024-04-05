@@ -47,19 +47,20 @@
                                 <td>{{ $biodata->nama }}</td>
                             </tr>
                             <tr>
+                                <th>TEMPAT, TANGGAL LAHIR</th>
+                               
+                                <td>{{ $biodata->tempat_lahir }}, {{ date('d F Y', strtotime($biodata->tgl_lahir)) }}</td>
+
+                            </tr>
+                            <tr>
                                 <th>EMAIL</th>
                                 
                                 <td>{{ $biodata->email }}</td>
                             </tr>
                             <tr>
-                                <th>TEMPAT, TANGGAL LAHIR</th>
-                               
-                                <td>{{ $biodata->tgl_lahir }}</td>
-                            </tr>
-                            <tr>
                                 <th>NO HP</th>
                                                                
-                                <td>{{ $biodata->no_hp }}</td>
+                                <td>{{ $biodata->telepon }}</td>
                             </tr>
                             <tr>
                                 <th>JENIS KELAMIN</th>
@@ -82,8 +83,21 @@
                                 <td>{{ $biodata->desa }}</td>
                             </tr>
                             <tr>
+                                <th>RT/RW</th>
+                                
+                                <td>{{ $biodata->rt }}/{{ $biodata->rw }}</td>
+                            </tr>
+                            <tr>
                                 <th>ALAMAT</th>
                                 <td>{{ $biodata->alamat }}</td>
+                            </tr>
+                            <tr>
+                                <th>Kewarganegaraan</th>
+                                <td>{{ $biodata->warganegara }}</td>
+                            </tr>
+                            <tr>
+                                <th>Status Perkawinan</th>
+                                <td>{{ $biodata->status_nikah }}</td>
                             </tr>
                             @endforeach
                             </thead>

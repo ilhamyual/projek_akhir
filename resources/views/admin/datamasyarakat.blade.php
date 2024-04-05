@@ -123,17 +123,13 @@
                                 <input type="text" class="form-control" id="kota" name="kota" value="Jember" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="kecamatan">Kecamatan</label>
-                                <select class="form-control" id="kecamatan" name="kecamatan" required>
-                                    <option value="">Pilih Kecamatan</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="desa">Desa</label>
-                                <select class="form-control" id="desa" name="desa" required>
-                                    <option value="">Pilih Desa</option>
-                                </select>
-                            </div>
+                                            <label>Kecamatan</label>
+                                            <input type="text" class="form-control" value="{{ $data->kecamatan }}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Desa</label>
+                                            <input type="text" class="form-control" value="{{ $data->desa }}" readonly>
+                                        </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
                                 <div class="input-group">
