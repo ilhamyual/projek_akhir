@@ -45,9 +45,11 @@ Route::middleware(['auth:biodata', 'check.role'])->group(function () {
 Route::middleware(['auth:biodata', 'adminDesa'])->group(function(){
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/dashboard/{id_berkas}/{judul_berkas}', [DashboardController::class, 'adminRequest'])->name('admin.request');
-    Route::get('/request/{id_berkas}/{judul_berkas}/{id_request}', [DashboardController::class, 'edit'])->name('detail.request');
+    
+    Route::put('/request/{id_request}/acc', [DashboardController::class, 'accRequest'])->name('request.acc');
+    Route::get('/request/{nik}/{id_request}/{id_berkas}/{judul_berkas}/edit', [DashboardController::class, 'edit'])->name('detail.request');
     Route::get('/request/{id_request}/edit', [DashboardController::class, 'edit'])->name('request.edit');
-    Route::put('/request', [DashboardController::class, 'update'])->name('request.update');
+    Route::put('/admin/request/update', [DashboardController::class, 'update'])->name('request.update');
     Route::get('/data_masyarakat', [DataMasyarakatController::class, 'index'])->name('admin.data_masyarakat');
     Route::get('/berkas_permohonan', [BerkasPermohonanController::class, 'index'])->name('admin.berkas_permohonan');
     Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan');

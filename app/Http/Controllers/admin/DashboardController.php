@@ -43,24 +43,79 @@ class DashboardController extends Controller
     ]);
 
 }
-public function edit($id_request, $id_berkas, $judul_berkas)
-{
-    // Fetch data for the form
-    $data = DB::table('data_requests')
-    ->join('biodata', 'data_requests.nik', '=', 'biodata.nik')
-    ->select('data_requests.*', 'biodata.*')
-    ->where('data_requests.id_request', $id_request)
-    ->first();
-    // dd($data);
+public function edit($nik, $id_request, $id_berkas, $judul_berkas)
+    {
+        // Fetch data for the form based on NIK
+        $data = DataRequest::where('nik', $nik)->where('id_request', $id_request)->first();
 
-    // Return the view with data
-    return view('admin.review', [
-        'data' => $data,
-        'id_berkas' => $id_berkas,
-        'judul_berkas' => $judul_berkas,
+        // Check if data request exists
+        if (!$data) {
+            return redirect()->back()->with('error', 'Data request tidak ditemukan.');
+        }
+
+        return view('admin.review', [
+            'data' => $data,
+            'id_berkas' => $id_berkas,
+            'judul_berkas' => $judul_berkas,
+        ]);
+    }
+
+public function update(Request $request)
+{
+    // Validate the incoming request
+    $validatedData = $request->validate([
+        'id_request' => 'required|integer',
+        'id_berkas' => 'required|integer',
+        'keperluan' => 'required|string',
     ]);
+
+    // Find the data request
+    $dataRequest = DataRequest::where('id_request', $request->id_request)
+        ->where('id_berkas', $request->id_berkas)
+        ->first();
+
+    // Check if the data request exists
+    if ($dataRequest) {
+        // Update the data request with the new note
+        $dataRequest->keperluan = $request->keperluan;
+        $dataRequest->save();
+        
+        // Get the id_berkas from the data request
+        $id_berkas = $dataRequest->id_berkas;
+
+        // Get the judul_berkas from the Berkas table
+        $judul_berkas = Berkas::find($id_berkas)->judul_berkas;
+
+        // Redirect back with success message
+        return redirect()->route('admin.request', ['id_berkas' => $id_berkas, 'judul_berkas' => $judul_berkas])
+            ->with(['success', 'Catatan berhasil diperbarui.', 'judul_berkas' => $judul_berkas]);
+    }
+
+    // If data request not found, redirect back with error message
+    return redirect()->back()->with('error', 'Data request tidak ditemukan.');
 }
 
+
+
+public function accRequest($id_request)
+{
+    // Temukan permintaan data yang sesuai
+    $dataRequest = DataRequest::find($id_request);
+
+    // Periksa apakah data request ditemukan
+    if ($dataRequest) {
+        // Ubah status menjadi 1
+        $dataRequest->status = 1;
+        $dataRequest->keperluan = 'Telah di ACC';
+        $dataRequest->save();
+
+        // Redirect back with success message
+        return redirect('/dashboard');
+    }
+
+    // Jika data request tidak ditemukan, kembalikan dengan pesan error
+    return redirect()->back()->with('error', 'Data request tidak ditemukan.');
+}
 
     
 }

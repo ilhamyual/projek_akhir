@@ -36,14 +36,17 @@
                 
                 <span class="info-box-text" style="color: black;">{{ $berkas->judul_berkas }}</span>
                 @php
-                    $jumlah_req = App\Models\DataRequest::where('id_berkas', $berkas->id_berkas)
-                    ->where('status', 0)
-                    ->whereHas('biodata', function ($query) {
-                        $query->where('id_kec', auth()->user()->kecamatan)
-                            ->where('id_desa', auth()->user()->desa);
-                        })
-                    ->count();
-                @endphp
+    $jumlah_req = App\Models\DataRequest::where('id_berkas', $berkas->id_berkas)
+        ->where(function ($query) {
+            $query->whereIn('status', [0, 1, 2])
+                ->whereHas('biodata', function ($query) {
+                    $query->where('id_kec', auth()->user()->kecamatan)
+                        ->where('id_desa', auth()->user()->desa);
+                });
+        })
+        ->count();
+@endphp
+
                 <span class="info-box-number" style="color: black;">{{ $jumlah_req }}</span>
                 
               </div>
