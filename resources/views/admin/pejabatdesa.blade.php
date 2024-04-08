@@ -43,10 +43,30 @@
                           <th>NIP</th>
                           <th>Nama Pejabat</th>
                           <th>Jabatan</th>
-                          <th>Opsi</th>
+                          <th>Pangkat</th>
+                          <th style="width: 10%">Action</th>
                       </thead>
                       <tbody>
+                      @foreach($pejabats as $pejabat)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $pejabat->nip }}</td>
+                                    <td>{{ $pejabat->nm_pejabat }}</td>
+                                    <td>{{ $pejabat->jabatan }}</td>
+                                    <td>{{ $pejabat->pangkat }}</td>
+                                    <td>
+                                        
+                                        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editPejabatModal{{ $pejabat->nip }}" title="Edit Pejabat">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
 
+                                            <a href="{{ route('pejabat.destroy', $pejabat->nip) }}" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Hapus Pejabat">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        
+                                    </td>
+                                </tr>
+                                @endforeach
                       </tbody>
                   </table>
               </div>
@@ -66,7 +86,9 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST">
+            <form method="POST" action="{{ route('pejabat.store') }}">
+            @csrf
+                @method('POST')
                 <div class="modal-body">
                     <div class="form-group">
                         <label>NIP</label>
@@ -85,7 +107,7 @@
                             <option value="Lainnya">Lainnya</option>
                         </select>
                     </div>
-                    <div class="form-group" id="jblain">
+                    <div class="form-group" id="jblain" style="display: none;">
                         <label>Isikan Jabatan Lainnya</label>
                         <input name="jblain" class="form-control" placeholder="Jabatan..">
                     </div>
@@ -96,10 +118,69 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button name="simpan" class="btn btn-success">Simpan</button>
+                    <button type="submit" name="simpan" class="btn btn-success">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+@foreach($pejabats as $pejabat)
+<div class="modal fade" id="editPejabatModal{{ $pejabat->nip }}" tabindex="-1" role="dialog" aria-labelledby="editPejabatModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPejabatModalLabel">Edit Pejabat</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editPejabatForm" action="{{ route('pejabat.update', ['nip' => $pejabat->nip]) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="editNmPejabat">Nama Pejabat</label>
+                        <input type="text" class="form-control" id="editNmPejabat" name="nm_pejabat" value="{{ $pejabat->nm_pejabat }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="editJabatan">Jabatan</label>
+                        <select class="form-control" id="editJabatan" name="jabatan">
+                            <option value="Kepala Desa" {{ $pejabat->jabatan == 'Kepala Desa' ? 'selected' : '' }}>Kepala Desa</option>
+                            <option value="Sekretaris Desa" {{ $pejabat->jabatan == 'Sekretaris Desa' ? 'selected' : '' }}>Sekretaris Desa</option>
+                            <option value="Lainnya" {{ $pejabat->jabatan != 'Kepala Desa' && $pejabat->jabatan != 'Sekretaris Desa' ? 'selected' : '' }}>Lainnya</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="editJblain" style="{{ $pejabat->jabatan != 'Lainnya' ? 'display: none;' : '' }}">
+                        <label for="editJblainInput">Jabatan Lainnya</label>
+                        <input type="text" class="form-control" id="editJblainInput" name="jblain" value="{{ $pejabat->jabatan != 'Kepala Desa' && $pejabat->jabatan != 'Sekretaris Desa' ? $pejabat->jabatan : '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="editPangkat">Pangkat</label>
+                        <input type="text" class="form-control" id="editPangkat" name="pangkat" value="{{ $pejabat->pangkat }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
 @endsection
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        $('#jblain').hide();
+        $('#jabatan').change(function () {
+            var jab = $('#jabatan').val();
+            if (jab == 'Lainnya') {
+                $('#jblain').show();
+            } else {
+                $('#jblain').hide();
+            }
+        });
+    });
+</script>
+@endpush

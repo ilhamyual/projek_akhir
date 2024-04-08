@@ -56,7 +56,11 @@ Route::middleware(['auth:biodata', 'adminDesa'])->group(function(){
     Route::get('/biodata_desa', [BiodataDesaController::class, 'index'])->name('admin.biodata_desa');
     Route::get('/biodata_desa/{nik}', [BiodataDesaController::class, 'ubah'])->name('ubah.desa');
     Route::put('/biodata_desa/{nik}', [BiodataDesaController::class, 'update'])->name('biodata.update');
-    Route::get('/pejabat_desa', [PejabatDesaController::class, 'index'])->name('admin.pejabat_desa');
+    Route::get('/pejabat', [PejabatDesaController::class, 'index'])->name('admin.pejabat_desa');
+    Route::post('/pejabat', [PejabatDesaController::class, 'store'])->name('pejabat.store');
+    Route::get('/pejabat/{nip}/edit', [PejabatDesaController::class, 'edit'])->name('pejabat.edit');
+    Route::put('/pejabat/{nip}', [PejabatDesaController::class, 'update'])->name('pejabat.update');
+    Route::delete('/pejabat/{nip}', [PejabatDesaController::class, 'destroy'])->name('pejabat.destroy');
 
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 });
