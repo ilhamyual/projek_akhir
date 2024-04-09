@@ -1,5 +1,14 @@
 @extends('layouts.app')
 @section('title', 'Dashboard')
+@php
+$card_array = [
+    'bg-aqua', 'bg-green', 'bg-yellow', 'bg-red', 'bg-blue',
+    'bg-navy', 'bg-teal', 'bg-olive', 'bg-lime', 'bg-orange',
+    'bg-fuchsia', 'bg-purple', 'bg-maroon', 'bg-black', 'bg-gray',
+    'bg-light-blue', 'bg-dark-green', 'bg-dark-yellow', 'bg-dark-red', 'bg-dark-blue'
+];
+$total_colors = count($card_array);
+@endphp
 @section('content')
     <div class="content-header">
       <div class="container-fluid">
@@ -18,35 +27,38 @@
     </div>
     <section class="content">
     <div class="row">
-          @foreach($master_berkas as $berkas)
-          <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box">
-              <span class="info-box-icon 
-              @if($loop->index >= 5)
-                  {{ $card_array[$loop->index % 5] }}
-              @else
-                  {{ $card_array[$loop->index] }}
-              @endif
-              "><i class="far fa-envelope"></i></span>
-
-              <div class="info-box-content">
-              <a href="{{ route('admin.request', ['id_berkas' => $berkas->id_berkas, 'judul_berkas' => $berkas->judul_berkas]) }}">
+    @foreach($master_berkas as $berkas)
+<div class="col-md-3 col-sm-6 col-12">
+    <a href="{{ route('admin.request', ['id_berkas' => $berkas->id_berkas, 'judul_berkas' => $berkas->judul_berkas]) }}">
+        <div class="info-box">
+            @if($total_colors > 0)
+            <span class="info-box-icon {{ $card_array[$loop->index % $total_colors] }}"><i class="far fa-envelope"></i></span>
+            @else
+            <!-- Default class or style jika tidak ada warna -->
+            <span class="info-box-icon"><i class="far fa-envelope"></i></span>
+            @endif
+            <div class="info-box-content">
                 <span class="info-box-text" style="color: black;">{{ $berkas->judul_berkas }}</span>
                 @php
-                    $jumlah_req = App\Models\DataRequest::where('id_berkas', $berkas->id_berkas)
-                        ->where('status', 0)
+                $jumlah_req = App\Models\DataRequest::where('id_berkas', $berkas->id_berkas)
+                    ->where(function ($query) {
+                        $query->whereIn('status', [0, 1, 2])
                             ->whereHas('biodata', function ($query) {
-                        })
-                          ->count();
+                                $query->where('id_kec', auth()->user()->kecamatan)
+                                      ->where('id_desa', auth()->user()->desa);
+                            });
+                    })
+                    ->count();
                 @endphp
+
                 <span class="info-box-number" style="color: black;">{{ $jumlah_req }}</span>
-                </a>
-              </div>
-              <!-- /.info-box-content -->
             </div>
-            <!-- /.info-box -->
-          </div>
-          @endforeach
+            <!-- /.info-box-content -->
+        </div>
+    </a>
+    <!-- /.info-box -->
+</div>
+@endforeach
           
           <!-- /.col -->
         </div>
