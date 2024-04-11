@@ -30,6 +30,7 @@ Route::get('/kecamatan', [KecamatanDesaController::class, 'getKecamatan']);
 Route::get('/desa/{id_kec}', [KecamatanDesaController::class, 'getDesaByKecamatan']);
 // Route::get('/biodata/{nik}', [FlutterBiodataController::class, 'index']);
 Route::get('/berkas', [BerkasController::class, 'index']);
+Route::post('/send_request', [BerkasController::class, 'store']);
 
 
 Route::post('/login_flut', [AuthController::class, 'login']);

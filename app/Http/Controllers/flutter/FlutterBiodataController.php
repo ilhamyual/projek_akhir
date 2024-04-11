@@ -25,6 +25,7 @@ class FlutterBiodataController extends Controller
             'name' => $user->nama,
             'kecamatan' => $user->kecamatan,
             'desa' => $user->desa,
+            'nik' => $user->nik,
         ]);
     }
 }
