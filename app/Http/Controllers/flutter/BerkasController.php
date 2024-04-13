@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\flutter;
 
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller; // Import Controller class dari namespace yang benar
 use Illuminate\Http\Request;
 use App\Models\Berkas;
 use App\Models\DataRequest;
+use Illuminate\Support\Facades\Auth; // Import Auth facade
+use App\Models\Biodata;
 
 class BerkasController extends Controller
 {
@@ -49,4 +52,18 @@ class BerkasController extends Controller
         // Jika berhasil disimpan, kirim response berhasil
         return response()->json(['message' => 'Data berhasil disimpan'], 200);
     }
+
+    public function show($nik)
+    {
+        $dataRequests = DataRequest::where('nik', $nik)
+            ->with('berkas:id_berkas,judul_berkas') // Memuat relasi 'berkas' dengan memilih kolom 'id' dan 'judul_berkas'
+            ->get();
+
+        if ($dataRequests->isEmpty()) {
+            return response()->json(['message' => 'Data not found'], 404);
+        } else {
+            return response()->json($dataRequests);
+        }
+    }
+
 }

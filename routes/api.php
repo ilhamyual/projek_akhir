@@ -23,13 +23,13 @@ use App\Http\Controllers\flutter\BerkasController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 Route::post('/login_flutter', [FlutterLoginController::class, 'login']);
 Route::post('/register_flutter', [FlutterRegisterController::class, 'register']);
 Route::get('/kecamatan', [KecamatanDesaController::class, 'getKecamatan']);
 Route::get('/desa/{id_kec}', [KecamatanDesaController::class, 'getDesaByKecamatan']);
 // Route::get('/biodata/{nik}', [FlutterBiodataController::class, 'index']);
 Route::get('/berkas', [BerkasController::class, 'index']);
+Route::get('/data-requests/{nik}', [BerkasController::class, 'show']);
 Route::post('/send_request', [BerkasController::class, 'store']);
 
 
