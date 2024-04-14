@@ -71,6 +71,7 @@ class BerkasController extends Controller
     // Validasi data
     $validatedData = $request->validate([
         'form_tambahan' => 'required',
+        'keterangan' => 'required',
     ]);
 
     // Cari data request yang akan diperbarui berdasarkan 'id_request'
