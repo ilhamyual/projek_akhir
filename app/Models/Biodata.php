@@ -23,6 +23,7 @@ class Biodata extends Authenticatable
         'kota',
         'kecamatan',
         'desa',
+        'alamat',
         'warganegara',
         'status_nikah',
         'status_warga',
@@ -31,6 +32,8 @@ class Biodata extends Authenticatable
         'alamat',
         'telepon',
         'email',
+        'kodepos',
+        'website',
         'password',
     ];
 }

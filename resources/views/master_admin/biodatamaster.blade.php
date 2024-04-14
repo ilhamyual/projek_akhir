@@ -24,17 +24,18 @@
           <div class="card-header">
               Biodata Master Admin
               <div class="float-right">
-                  <button class="btn btn-sm btn-success" id="btn-add-new"  type="button" data-toggle="modal" data-target="#modalBiodataModalt">
-                      <i class="fas fa-edit"></i>
-                      Ubah Biodata
-                  </button>
+              @foreach($biodatas as $index => $biodata)
+              <a href="{{ route('ubah.master', [$biodata->nik]) }}" class="btn btn-sm btn-warning btn-round ml-auto">
+                  <i class="fa fa-edit"></i>
+                  Ubah Biodata
+              </a>
               </div>
           </div>
           <div class="card-body">
               <div class="table-responsive">
               <table class="table table-bordered">
                         <thead>
-                        @foreach($biodatas as $index => $biodata)
+                        
                             <tr>
                                 <th>NIK</th>
                                 
@@ -58,31 +59,12 @@
                             <tr>
                                 <th>NO HP</th>
                                                                
-                                <td>{{ $biodata->no_hp }}</td>
+                                <td>{{ $biodata->telepon }}</td>
                             </tr>
                             <tr>
                                 <th>JENIS KELAMIN</th>
                                 
                                 <td>{{ $biodata->jekel }}</td>
-                            </tr>
-                            <tr>
-                                <th>AGAMA</th>
-                                
-                                <td>{{ $biodata->agama }}</td>
-                            </tr>
-                            <tr>
-                                <th>KECAMATAN</th>
-                                
-                                <td>{{ $biodata->kecamatan }}</td>
-                            </tr>
-                            <tr>
-                                <th>DESA</th>
-                                
-                                <td>{{ $biodata->desa }}</td>
-                            </tr>
-                            <tr>
-                                <th>ALAMAT</th>
-                                <td>{{ $biodata->alamat }}</td>
                             </tr>
                             @endforeach
                             </thead>

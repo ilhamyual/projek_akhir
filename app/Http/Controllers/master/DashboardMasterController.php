@@ -28,4 +28,30 @@ class DashboardMasterController extends Controller
         $biodatas = Biodata::where('nik', $user)->get();
         return view('master_admin.biodatamaster', compact('biodatas'));
     }
+    public function ubah($nik)
+    {
+        $data = Biodata::where('nik', $nik)->first();
+        return view('master_admin.editmaster', compact('data'));
+    }
+
+    public function update(Request $request, $nik)
+    {
+        $validatedData = $request->validate([
+            'nama' => 'required|string|max:50',
+            'jekel' => 'required|in:Laki-Laki,Perempuan',
+            'tgl_lahir' => 'required|date',
+            'telepon' => 'nullable|string|max:13',
+            'email' => 'nullable|string|email|max:50',
+        ]);
+
+        // Ambil data biodata berdasarkan NIK
+        $biodata = Biodata::where('nik', $nik)->firstOrFail();
+
+        // Update data biodata
+        $biodata->update($validatedData);
+
+
+        // Redirect ke halaman lain atau tampilkan pesan sukses
+        return redirect()->route('admin.biodata_master')->with('success', 'Biodata berhasil diperbarui.');
+    }
 }

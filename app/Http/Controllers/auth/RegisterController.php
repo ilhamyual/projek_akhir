@@ -22,6 +22,7 @@ class RegisterController extends Controller
         $validatedData = $request->validate([
             'nik' => 'required|numeric|unique:biodata',
             'nama' => 'required|string|max:100',
+            'email' => 'required|string|max:50',
             'jekel' => 'required|in:Laki-Laki,Perempuan',
             'kecamatan' => 'required|string|max:100',
             'desa' => 'required|string|max:100',
@@ -42,6 +43,7 @@ class RegisterController extends Controller
             $biodata = Biodata::create([
                 'nik' => $validatedData['nik'],
                 'nama' => $validatedData['nama'],
+                'email' => $validatedData['email'],
                 'jekel' => $validatedData['jekel'],
                 'kecamatan' => $kecamatan->nama,
                 'desa' => $desa->nama,

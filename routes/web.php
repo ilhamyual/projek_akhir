@@ -35,11 +35,17 @@ Route::middleware(['auth:biodata', 'check.role'])->group(function () {
     Route::get('/dashboard_master', [DashboardMasterController::class, 'index'])->name('admin.dashboard_master');
     Route::get('/dashboard_master/{id_berkas}/{judul_berkas}', [DashboardMasterController::class, ''])->name('master.request');
     Route::get('/data_admindesa', [DataDesaController::class, 'index'])->name('admin.data_admindesa');
+    Route::post('/data_admindesa', [DataDesaController::class, 'tambah'])->name('register.desa');
+    Route::put('/data_admindesa/{nik}', [DataDesaController::class, 'update'])->name('master.update.desa');
+    Route::delete('/data_admindesa/{nik}', [DataDesaController::class, 'destroy'])->name('master.delete.desa');
+
     Route::get('/templatesurat', [TemplateSuratController::class, 'index'])->name('admin.templatesurat');
     Route::post('/templatesurat/store', [TemplateSuratController::class, 'store'])->name('berkas.store');
     Route::delete('/berkas/{judul_berkas}/delete', [TemplateSuratController::class, 'destroy'])->name('berkas.delete');
     Route::get('/laporan_master', [LaporanMasterController::class, 'index'])->name('admin.laporan_master');
     Route::get('/biodata_master', [DashboardMasterController::class, 'master'])->name('admin.biodata_master');
+    Route::get('/biodata_master/{nik}', [DashboardMasterController::class, 'ubah'])->name('ubah.master');
+    Route::put('/biodata_master/{nik}', [DashboardMasterController::class, 'update'])->name('update.master');
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 });
 Route::middleware(['auth:biodata', 'adminDesa'])->group(function(){
@@ -51,6 +57,10 @@ Route::middleware(['auth:biodata', 'adminDesa'])->group(function(){
     Route::get('/request/{id_request}/edit', [DashboardController::class, 'edit'])->name('request.edit');
     Route::put('/admin/request/update', [DashboardController::class, 'update'])->name('request.update');
     Route::get('/data_masyarakat', [DataMasyarakatController::class, 'index'])->name('admin.data_masyarakat');
+    Route::get('/data_masyarakat/{nik}/edit', [DataMasyarakatController::class, 'edit'])->name('masyarakat.edit');
+    Route::put('/data_masyarakat/{nik}', [DataMasyarakatController::class, 'update'])->name('masyarakat.update');
+    Route::delete('/data_masyarakat/{nik}', [DataMasyarakatController::class, 'destroy'])->name('masyarakat.delete');
+
     Route::get('/berkas_permohonan', [BerkasPermohonanController::class, 'index'])->name('admin.berkas_permohonan');
     Route::get('/laporan', [LaporanController::class, 'index'])->name('admin.laporan');
     Route::get('/biodata_desa', [BiodataDesaController::class, 'index'])->name('admin.biodata_desa');

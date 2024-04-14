@@ -26,48 +26,28 @@ class BiodataDesaController extends Controller
 
     public function update(Request $request, $nik)
     {
-        // Validasi data yang diterima dari formulir
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'jekel' => 'required|string',
-            'tempat_lahir' => 'required|string|max:255',
+        $validatedData = $request->validate([
+            'nama' => 'required|string|max:50',
+            'jekel' => 'required|in:Laki-Laki,Perempuan',
             'tgl_lahir' => 'required|date',
-            'idpekerjaan' => 'nullable|exists:pekerjaan,id',
-            'agama' => 'required|string',
-            'warganegara' => 'required|string',
-            'status_nikah' => 'required|string',
-            'status_warga' => 'required|string',
-            'rt' => 'nullable|string|max:3',
-            'rw' => 'nullable|string|max:3',
-            'alamat' => 'nullable|string|max:255',
-            'telepon' => 'nullable|string|max:255',
-            'kecamatan' => 'nullable|string|max:100',
-            'desa' => 'nullable|string|max:100',
-            // 'email' => 'nullable|string|max:255|email',
-            // Tambahkan validasi untuk field lainnya sesuai kebutuhan
+            'tempat_lahir' => 'nullable|string|max:30',
+            'alamat' => 'nullable|string',
+            'telepon' => 'nullable|string|max:13',
+            'email' => 'nullable|email|max:50',
+            'kecamatan' => 'required|string',
+            'desa' => 'required|string',
+            'website' => 'nullable|string|max:20',
+            'kodepos' => 'nullable|string|max:50',
         ]);
-            $biodata = Biodata::where('nik', $nik)->firstOrFail();
 
-        // Update data biodata berdasarkan data yang diterima dari formulir
-        $biodata->nama = $request->nama;
-        $biodata->jekel = $request->jekel;
-        $biodata->tempat_lahir = $request->tempat_lahir;
-        $biodata->tgl_lahir = $request->tgl_lahir;
-        $biodata->idpekerjaan = $request->idpekerjaan;
-        $biodata->agama = $request->agama;
-        $biodata->warganegara = $request->warganegara;
-        $biodata->status_nikah = $request->status_nikah;
-        $biodata->status_warga = $request->status_warga;
-        $biodata->rt = $request->rt;
-        $biodata->rw = $request->rw;
-        $biodata->alamat = $request->alamat;
-        $biodata->telepon = $request->telepon;
-        // $biodata->email = $request->email;
+        // Ambil data biodata berdasarkan NIK
+        $biodata = Biodata::where('nik', $nik)->firstOrFail();
 
-        // Simpan perubahan pada database
-        $biodata->save();
+        // Update data biodata
+        $biodata->update($validatedData);
 
-        // Redirect ke halaman yang sesuai atau tampilkan pesan sukses
+
+        // Redirect ke halaman lain atau tampilkan pesan sukses
         return redirect()->route('admin.biodata_desa')->with('success', 'Biodata berhasil diperbarui.');
     }
 }

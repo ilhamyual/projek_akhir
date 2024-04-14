@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nik')->unique();
             $table->string('nama');
+            $table->string('email', 50)->nullable();
             $table->enum('jekel', ['Laki-Laki', 'Perempuan']);
             $table->string('kecamatan');
             $table->string('desa');
@@ -33,6 +34,7 @@ return new class extends Migration
             $table->string('rt', 10)->nullable();
             $table->string('rw', 10)->nullable();
             $table->string('kodepos', 20)->nullable();
+            $table->string('website', 50)->nullable();
             $table->timestamps();
         });
     }

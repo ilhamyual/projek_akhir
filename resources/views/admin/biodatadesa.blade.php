@@ -37,7 +37,7 @@
                         <thead>
                         
                             <tr>
-                                <th>NIK</th>
+                                <th>NIPD</th>
                                 
                                 <td>{{ $biodata->nik }}</td>
                             </tr>
@@ -67,11 +67,7 @@
                                 
                                 <td>{{ $biodata->jekel }}</td>
                             </tr>
-                            <tr>
-                                <th>AGAMA</th>
-                                
-                                <td>{{ $biodata->agama }}</td>
-                            </tr>
+                            
                             <tr>
                                 <th>KECAMATAN</th>
                                 
@@ -83,21 +79,17 @@
                                 <td>{{ $biodata->desa }}</td>
                             </tr>
                             <tr>
-                                <th>RT/RW</th>
+                                <th>KODE POS</th>
                                 
-                                <td>{{ $biodata->rt }}/{{ $biodata->rw }}</td>
+                                <td>{{ $biodata->kodepos }}</td>
                             </tr>
                             <tr>
                                 <th>ALAMAT</th>
                                 <td>{{ $biodata->alamat }}</td>
                             </tr>
                             <tr>
-                                <th>Kewarganegaraan</th>
-                                <td>{{ $biodata->warganegara }}</td>
-                            </tr>
-                            <tr>
-                                <th>Status Perkawinan</th>
-                                <td>{{ $biodata->status_nikah }}</td>
+                                <th>WEBSITE</th>
+                                <td>{{ $biodata->website }}</td>
                             </tr>
                             @endforeach
                             </thead>

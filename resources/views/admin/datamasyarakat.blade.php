@@ -59,15 +59,14 @@
     <td>
         <!-- Tambahkan tombol untuk opsi, misalnya: edit, hapus, dll -->
         <!-- Contoh tombol edit -->
-        <button class="btn btn-sm btn-primary" data-id="{{ $biodata->id }}" data-nik="{{ $biodata->NIK }}" data-nama="{{ $biodata->nama }}" data-email="{{ $biodata->email }}" data-kecamatan="{{ $biodata->kecamatan }}" data-desa="{{ $biodata->desa }}" data-toggle="modal" data-target="#modalEditAdminDesa">
+        <button class="btn btn-sm btn-primary" type="button"  data-toggle="modal" data-target="#ubahBiodataModal{{ $biodata->nik }}">
             <i class="fas fa-edit"></i>
             Edit
         </button>
         <!-- Contoh tombol hapus -->
-        <button class="btn btn-sm btn-danger" data-id="{{ $biodata->id }}" data-toggle="modal" data-target="#modalHapusAdminDesa">
-            <i class="fas fa-trash"></i>
-            Hapus
-        </button>
+        <a href="{{ route('masyarakat.delete', $biodata->nik) }}" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Hapus Pejabat">
+          <i class="fa fa-trash">hapus</i>
+        </a>
     </td>
 </tr>
 @endforeach
@@ -104,6 +103,10 @@
                             <div class="form-group">
                                 <label for="name">Nama Lengkap</label>
                                 <input type="text" class="form-control" id="name" name="nama" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
                             </div>
                             <div class="form-group">
                                 <label for="jekel">Jenis Kelamin</label>
@@ -157,5 +160,130 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+@foreach($biodatas as $biodata)
+<div class="modal fade" id="ubahBiodataModal{{ $biodata->nik }}" tabindex="-1" role="dialog" aria-labelledby="ubahBiodataModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ubahBiodataModalLabel">Ubah Biodata</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Formulir untuk mengubah biodata -->
+        <form id="ubahBiodataForm" method="POST" action="{{ route('masyarakat.update', ['nik' => $biodata->nik]) }}">
+          @csrf
+          @method('PUT')
+          
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label>NIK</label>
+                <input type="number" name="nik" value="{{ $biodata->nik }}" class="form-control" placeholder="NIK Anda.." autofocus readonly>
+            </div>
+
+          <div class="form-group">
+            <label for="nama">Nama Lengkap</label>
+            <input type="text" class="form-control" id="nama" name="nama" value="{{ $biodata->nama }}">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ $biodata->email }}">
+        </div>
+          <div class="form-group">
+            <label for="jekel">Jenis Kelamin</label>
+            <select class="form-control" id="jekel" name="jekel">
+              <option value="Laki-Laki" {{ $biodata->jekel == 'Laki-Laki' ? 'selected' : '' }}>Laki-Laki</option>
+              <option value="Perempuan" {{ $biodata->jekel == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="tempat_lahir">Tempat Lahir</label>
+            <input type="text" class="form-control" id="tempat_lahir" name="tempat_lahir" value="{{ $biodata->tempat_lahir }}">
+          </div>
+          <div class="form-group">
+            <label for="tgl_lahir">Tanggal Lahir</label>
+            <input type="date" class="form-control" id="tgl_lahir" name="tgl_lahir" value="{{ $biodata->tgl_lahir }}">
+          </div>
+          <div class="form-group">
+            <label for="telepon">Telepon</label>
+            <input type="text" class="form-control" id="telepon" name="telepon" value="{{ $biodata->telepon }}">
+        </div>
+          <div class="form-group">
+            <label for="pekerjaan">Pekerjaan</label>
+            <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" value="{{ $biodata->pekerjaan }}">
+          </div>
+          <div class="form-group">
+            <label for="agama">Agama</label>
+            <select class="form-control" id="agama" name="agama">
+              <option value="Islam" {{ $biodata->agama == 'Islam' ? 'selected' : '' }}>Islam</option>
+              <option value="Kristen" {{ $biodata->agama == 'Kristen' ? 'selected' : '' }}>Kristen</option>
+              <option value="Katolik" {{ $biodata->agama == 'Katolik' ? 'selected' : '' }}>Katolik</option>
+              <option value="Hindu" {{ $biodata->agama == 'Hindu' ? 'selected' : '' }}>Hindu</option>
+              <option value="Budha" {{ $biodata->agama == 'Budha' ? 'selected' : '' }}>Budha</option>
+            </select>
+          </div>
+          </div>
+          <div class="col-md-6 col-lg-6">
+          <div class="form-group">
+            <label for="warganegara">Warganegara</label>
+            <select class="form-control" id="warganegara" name="warganegara">
+              <option value="WNI" {{ $biodata->warganegara == 'WNI' ? 'selected' : '' }}>WNI</option>
+              <option value="WNA" {{ $biodata->warganegara == 'WNA' ? 'selected' : '' }}>WNA</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="status_nikah">Status Pernikahan</label>
+            <select class="form-control" id="status_nikah" name="status_nikah">
+              <option value="Belum Kawin" {{ $biodata->status_nikah == 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin</option>
+              <option value="Kawin" {{ $biodata->status_nikah == 'Kawin' ? 'selected' : '' }}>Kawin</option>
+              <option value="Cerai Mati" {{ $biodata->status_nikah == 'Cerai Mati' ? 'selected' : '' }}>Cerai Mati</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Status Warga</label>
+            <select name="status_warga" class="form-control">
+                <option value="Sekolah" {{ $biodata->status_warga == "Sekolah" ? 'selected' : '' }}>Sekolah</option>
+                <option value="Kerja" {{ $biodata->status_warga == "Kerja" ? 'selected' : '' }}>Kerja</option>
+                <option value="Bekerja" {{ $biodata->status_warga == "Bekerja" ? 'selected' : '' }}>Bekerja</option>
+            </select>
+        </div>
+        <div class="form-group">
+                                            <label>Kecamatan</label>
+                                            <input type="text" name="kecamatan" value="{{ $biodata->kecamatan ?? '' }}" class="form-control" placeholder="Kecamatan Anda.." readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Desa</label>
+                                            <input type="text" name="desa" value="{{ $biodata->desa ?? '' }}" class="form-control" placeholder="Desa Anda.."readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>RT</label>
+                                            <input type="text" name="rt" value="{{ $biodata->rt ?? '' }}" class="form-control" placeholder="RT Anda.." >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>RW</label>
+                                            <input type="text" name="rw" value="{{ $biodata->rw ?? '' }}" class="form-control" placeholder="RW Anda.." >
+                                        </div>
+        <div class="form-group">
+            <label for="alamat">Alamat</label>
+            <textarea class="form-control" id="alamat" name="alamat" rows="3">{{ $biodata->alamat }}</textarea>
+        </div>
+        
+        
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+        </div>
+        </div>
+    </form>
+    </div>
+</div>
+</div>
+</div>
+@endforeach
+
     
 @endsection
