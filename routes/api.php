@@ -31,6 +31,7 @@ Route::get('/desa/{id_kec}', [KecamatanDesaController::class, 'getDesaByKecamata
 Route::get('/berkas', [BerkasController::class, 'index']);
 Route::get('/data-requests/{nik}', [BerkasController::class, 'show']);
 Route::post('/send_request', [BerkasController::class, 'store']);
+Route::put('/update-data/{id_request}', [BerkasController::class, 'update']);
 
 
 Route::post('/login_flut', [AuthController::class, 'login']);

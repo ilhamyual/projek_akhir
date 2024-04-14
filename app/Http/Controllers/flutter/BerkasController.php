@@ -66,4 +66,28 @@ class BerkasController extends Controller
         }
     }
 
+    public function update(Request $request, $id_request)
+{
+    // Validasi data
+    $validatedData = $request->validate([
+        'form_tambahan' => 'required',
+    ]);
+
+    // Cari data request yang akan diperbarui berdasarkan 'id_request'
+    $dataRequest = DataRequest::find($id_request);
+
+    // Jika data request tidak ditemukan, kirim response 404
+    if (!$dataRequest) {
+        return response()->json(['message' => 'Data not found'], 404);
+    }
+
+    // Perbarui data request dengan data yang divalidasi
+    $dataRequest->update($validatedData);
+
+    // Kirim response berhasil
+    return response()->json(['message' => 'Data berhasil diperbarui'], 200);
+}
+
+
+
 }
