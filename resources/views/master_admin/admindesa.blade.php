@@ -63,9 +63,14 @@
             Edit
         </button>
         <!-- Contoh tombol hapus -->
-        <a href="{{ route('master.delete.desa', $biodata->nik) }}" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Hapus Admin Desa">
-        <span class="fa fa-trash">Hapus</span>
-                                            </a>
+        <form action="{{ route('master.delete.desa', $biodata->nik) }}" method="POST" style="display: inline-block;">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Hapus Admin Desa" onclick="return confirm('Apakah Kamu Yakin?');">
+        <span class="fa fa-trash"></span> Hapus
+    </button>
+</form>
+
     </td>
 </tr>
 @endforeach
@@ -102,7 +107,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="name">Nama Lengkap</label>
-                                <input type="text" class="form-control" id="name" name="nama" required>
+                                <input type="text" class="form-control" id="nama" name="nama" required>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email Desa</label>
@@ -121,7 +126,7 @@
                             </div>
                             <div class="form-group">
 								<label for="telepon">No Hp</label>
-								<input type="number" class="form-control" id="telepon" name="nohp" required>
+								<input type="number" class="form-control" id="telepon" name="telepon" required>
 							</div>
                         </div>
                         <div class="col-md-6">

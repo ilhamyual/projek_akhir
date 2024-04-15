@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Master;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Biodata;
 use App\Models\KecamatanDesa;
 use App\Models\Desa;
@@ -17,51 +18,48 @@ class DataDesaController extends Controller
         return view('master_admin.admindesa', compact('biodatas'));
     }
     public function tambah(Request $request)
-    {
-        $validatedData = $request->validate([
-            'nik' => 'required|numeric|unique:biodata',
-            'nama' => 'required|string|max:100',
-            'jekel' => 'required|in:Laki-Laki,Perempuan',
-            'kecamatan' => 'required|string|max:100',
-            'desa' => 'required|string|max:100',
-            'kota' => 'required|string|max:6',
-            'tgl_lahir' => 'required|date',
-            'password' => 'required|string|min:8',
-            'telepon' => 'nullable|numeric|max:13',
-            'kodepos' => 'nullable|numeric|max:20',
-            'alamat' => 'nullable|string',
-            'email' => 'nullable|email|max:50',
-        ]);
+{
+    $validatedData = $request->validate([
+        'nik' => 'required|numeric|unique:biodata',
+        'nama' => 'required|string|max:100',
+        'jekel' => 'required|in:Laki-Laki,Perempuan',
+        'kecamatan' => 'required|integer',
+        'desa' => 'required|integer',
+        'kota' => 'required|string|max:100',
+        'tgl_lahir' => 'required|date',
+        'password' => 'required|string|min:8',
+        'telepon' => 'nullable|digits_between:10,13',
+        'kodepos' => 'nullable|digits_between:5,20',
+        'alamat' => 'nullable|string',
+        'email' => 'nullable|email|max:50',
+    ]);
 
-        // Ambil ID kecamatan dan desa dari formulir
-        $kecamatanId = $validatedData['kecamatan'];
-        $desaId = $validatedData['desa'];
+    $kecamatan = KecamatanDesa::find($validatedData['kecamatan']);
+    $desa = Desa::find($validatedData['desa']);
 
-        // Ambil nama kecamatan dan desa berdasarkan ID
-        $kecamatan = KecamatanDesa::find($kecamatanId);
-        $desa = Desa::find($desaId);
-
-        $biodata = Biodata::create([
-                'nik' => $validatedData['nik'],
-                'nama' => $validatedData['nama'],
-                'jekel' => $validatedData['jekel'],
-                'kecamatan' => $kecamatan->nama,
-                'desa' => $desa->nama,
-                'kota' => $validatedData['kota'],
-                'tgl_lahir' => $validatedData['tgl_lahir'],
-                'password' => Hash::make($validatedData['password']),
-                'alamat' => $validatedData['alamat'],
-                'telepon' => $validatedData['nohp'],
-                'kodepos' => $validatedData['kodepos'],
-                'email' => $validatedData['email'],
-                'role' => 'Admin Desa',
-            ]);
-
-            dd($request->all());
-                 
-            return redirect()->back()->with('success', 'Registrasi berhasil');
-        
+    if (!$kecamatan || !$desa) {
+        return back()->with('error', 'Kecamatan atau Desa tidak ditemukan');
     }
+
+    Biodata::create([
+        'nik' => $validatedData['nik'],
+        'nama' => $validatedData['nama'],
+        'jekel' => $validatedData['jekel'],
+        'kecamatan' => $kecamatan->nama,
+        'desa' => $desa->nama,
+        'kota' => $validatedData['kota'],
+        'tgl_lahir' => $validatedData['tgl_lahir'],
+        'password' => Hash::make($validatedData['password']),
+        'alamat' => $validatedData['alamat'],
+        'telepon' => $validatedData['telepon'] ?? null,
+        'kodepos' => $validatedData['kodepos'],
+        'email' => $validatedData['email'],
+        'role' => 'Admin Desa',
+    ]);
+
+    return redirect()->back()->with('success', 'Registrasi berhasil');
+}
+
     public function update(Request $request, $nik)
     {
         // Validasiasi data yang dikirim dari formulir

@@ -35,5 +35,6 @@ class Biodata extends Authenticatable
         'kodepos',
         'website',
         'password',
+        'role',
     ];
 }
