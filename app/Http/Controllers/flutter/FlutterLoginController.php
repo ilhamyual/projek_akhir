@@ -45,6 +45,7 @@ public function profile($nik)
             'name' => $user->nama,
             'kecamatan' => $user->kecamatan,
             'desa' => $user->desa,
+            'email' => $user->email,
         ]);
     }
 

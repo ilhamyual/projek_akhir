@@ -51,7 +51,7 @@ class DataDesaController extends Controller
         'tgl_lahir' => $validatedData['tgl_lahir'],
         'password' => Hash::make($validatedData['password']),
         'alamat' => $validatedData['alamat'],
-        'telepon' => $validatedData['telepon'] ?? null,
+        'telepon' => $validatedData['telepon'],
         'kodepos' => $validatedData['kodepos'],
         'email' => $validatedData['email'],
         'role' => 'Admin Desa',
