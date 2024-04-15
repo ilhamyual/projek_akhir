@@ -9,6 +9,7 @@ use App\Models\Biodata;
 use App\Models\DataRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -30,7 +31,8 @@ class DashboardController extends Controller
     $user = auth()->user();
     $id_desa = $user->desa;
     $form_tambahan = Berkas::getFormTambahanById($id_berkas);
-    $biodatas = Biodata::where('desa', auth()->user()->desa)->get();
+    $biodatas = Biodata::where('desa', $id_desa)->where('role', 'pemohon')->get();
+
     // Ambil data permohonan yang sesuai dengan desa admin dan id_berkas yang diberikan
     $requests = DataRequest::where('id_desa', $id_desa)
                            ->where('id_berkas', $id_berkas) // Filter berdasarkan id_berkas
@@ -143,7 +145,7 @@ $masukan = rtrim($masukan, ', ');
     // Buat objek DataRequest baru
     $newRequest = new DataRequest();
     $newRequest->nik = $validatedData['nik'];
-    $newRequest->tanggal_request = $request->tanggal_request;
+    $newRequest->tanggal_request = Carbon::now()->setTimezone('Asia/Jakarta');
     $newRequest->status = 0;
     $newRequest->id_berkas = $validatedData['id_berkas'];
     $newRequest->keterangan = $validatedData['keterangan'];
