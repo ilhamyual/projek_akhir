@@ -56,13 +56,12 @@
     <td>{{ $biodata->kecamatan }}</td>
     <td>{{ $biodata->desa }}</td>
     <td>
-        <!-- Tambahkan tombol untuk opsi, misalnya: edit, hapus, dll -->
-        <!-- Contoh tombol edit -->
+        <!-- Tombol edit -->
         <button class="btn btn-sm btn-primary" type="button"  data-toggle="modal" data-target="#ubahBiodataModal{{ $biodata->nik }}">
             <i class="fas fa-edit"></i>
             Edit
         </button>
-        <!-- Contoh tombol hapus -->
+        <!-- Tombol hapus -->
         <form action="{{ route('master.delete.desa', $biodata->nik) }}" method="POST" style="display: inline-block;">
     @csrf
     @method('DELETE')
