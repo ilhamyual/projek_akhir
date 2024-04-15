@@ -53,6 +53,7 @@ public function edit($nik, $id_request, $id_berkas, $judul_berkas)
     {
         // Fetch data for the form based on NIK
         $data = DataRequest::where('nik', $nik)->where('id_request', $id_request)->first();
+        $biodata = Biodata::where('nik', $nik)->first();
 
         // Check if data request exists
         if (!$data) {
@@ -61,6 +62,7 @@ public function edit($nik, $id_request, $id_berkas, $judul_berkas)
 
         return view('admin.review', [
             'data' => $data,
+            'biodata' => $biodata,
             'id_berkas' => $id_berkas,
             'judul_berkas' => $judul_berkas,
         ]);
