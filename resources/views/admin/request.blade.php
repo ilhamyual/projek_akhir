@@ -23,8 +23,9 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="float-right">
+                                <!-- Ubah tombol "Tambah Request" -->
                                 <button class="btn btn-sm btn-success" id="btn-add-new" type="button"
-                                    data-toggle="modal" data-target="#modalTambahMasyarakat">
+                                    data-toggle="modal" data-target="#modalTambahRequest">
                                     <i class="fas fa-plus"></i>
                                     Tambah Request
                                 </button>
@@ -73,7 +74,7 @@
                                                     <i class="fas fa-check"></i>
                                                 </a>
                                                 <a href="{{ route('detail.request', ['id_berkas' => $id_berkas, 'judul_berkas' => $judul_berkas, 'nik' => $request->nik, 'id_request' => $request->id_request]) }}" class="btn btn-sm btn-warning">
-                                                <i class="fas fa-pencil-alt">Edit</i>
+                                                    <i class="fas fa-pencil-alt">Edit</i>
                                                 </a>
                                                 @endif
                                             </td>
@@ -88,4 +89,51 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal "Tambah Data Masyarakat" -->
+    <div class="modal fade" id="modalTambahRequest" tabindex="-1" role="dialog" aria-labelledby="modalTambahRequestLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTambahRequestLabel">Tambah Request</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formTambahRequest" action="{{ route('tambah.request') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+    <label for="nik">NIK</label>
+    <select class="form-control" id="nik" name="nik" required>
+        <option value="">Pilih NIK</option>
+        @foreach($biodatas as $biodata)
+            <option value="{{ $biodata->nik }}">{{ $biodata->nik }}</option>
+        @endforeach
+    </select>
+</div>
+
+                    <div class="form-group">
+                        <label for="keterangan">Keterangan</label>
+                        <input type="text" class="form-control" id="keterangan" name="keterangan" required>
+                    </div>
+                    <input type="hidden" name="id_berkas" value="{{ $id_berkas }}">
+                    @foreach($form_tambahan as $field)
+                                    <div class="form-group">
+                                        <label>{{ str_replace("_", " ", $field) }}</label>
+                                        <input type="text" name="{{ $field}}" class="form-control" placeholder="{{ str_replace("_", " ", $field) }}" autofocus>
+                                    </div>
+                                @endforeach
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Tambah Request</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 @endsection

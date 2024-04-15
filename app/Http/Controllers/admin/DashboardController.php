@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Berkas;
+use App\Models\Biodata;
 use App\Models\DataRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +29,8 @@ class DashboardController extends Controller
 {
     $user = auth()->user();
     $id_desa = $user->desa;
-
+    $form_tambahan = Berkas::getFormTambahanById($id_berkas);
+    $biodatas = Biodata::where('desa', auth()->user()->desa)->get();
     // Ambil data permohonan yang sesuai dengan desa admin dan id_berkas yang diberikan
     $requests = DataRequest::where('id_desa', $id_desa)
                            ->where('id_berkas', $id_berkas) // Filter berdasarkan id_berkas
@@ -39,6 +41,8 @@ class DashboardController extends Controller
     return view('admin.request', [
         'id_berkas' => $id_berkas,
         'judul_berkas' => $judul_berkas,
+        'form_tambahan' => $form_tambahan,
+        'biodatas' => $biodatas,
         'requests' => $requests, // Mengirimkan data permohonan ke view
     ]);
 
@@ -117,5 +121,43 @@ public function accRequest($id_request)
     return redirect()->back()->with('error', 'Data request tidak ditemukan.');
 }
 
+public function tambahRequest(Request $request)
+{
+    $validatedData = $request->validate([
+        'nik' => 'required|max:16',
+        'id_berkas' => 'required|string|max:20',
+        'keterangan' => 'required|string',
+        'form_tambahan' => 'nullable|string|max:255',
+    ]);
+
+    $masukan = '';
+foreach ($request->all() as $key => $value) {
+    if (!in_array($key, ['_token', 'nama', 'nik', 'id_berkas', 'keterangan', 'kirim'])) {
+        $variabel = str_replace(" ", "_", $key);
+        $masukan .= $variabel . ':' . $value . ', ';
+    }
+}
+
+$masukan = rtrim($masukan, ', ');
+
+    // Buat objek DataRequest baru
+    $newRequest = new DataRequest();
+    $newRequest->nik = $validatedData['nik'];
+    $newRequest->tanggal_request = $request->tanggal_request;
+    $newRequest->status = 0;
+    $newRequest->id_berkas = $validatedData['id_berkas'];
+    $newRequest->keterangan = $validatedData['keterangan'];
+    $newRequest->form_tambahan = $masukan;
+    $newRequest->id_kec = auth()->user()->kecamatan;
+    $newRequest->id_desa = auth()->user()->desa;
     
+    // tambahkan pengisian atribut lainnya sesuai kebutuhan
+
+    // Simpan request baru
+    $newRequest->save();
+
+    // Redirect atau kembalikan respons sesuai kebutuhan
+    return redirect()->back()->with('success', 'Request baru telah ditambahkan!');
+}
+ 
 }

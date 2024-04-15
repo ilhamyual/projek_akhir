@@ -51,6 +51,7 @@ Route::middleware(['auth:biodata', 'check.role'])->group(function () {
 Route::middleware(['auth:biodata', 'adminDesa'])->group(function(){
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/dashboard/{id_berkas}/{judul_berkas}', [DashboardController::class, 'adminRequest'])->name('admin.request');
+    Route::post('/dashboard/request', [DashboardController::class, 'tambahRequest'])->name('tambah.request');
     
     Route::put('/request/{id_request}/acc', [DashboardController::class, 'accRequest'])->name('request.acc');
     Route::get('/request/{nik}/{id_request}/{id_berkas}/{judul_berkas}/edit', [DashboardController::class, 'edit'])->name('detail.request');
