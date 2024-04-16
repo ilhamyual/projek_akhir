@@ -46,6 +46,12 @@ public function profile($nik)
             'kecamatan' => $user->kecamatan,
             'desa' => $user->desa,
             'email' => $user->email,
+            'nik' => $user->nik,
+            'kota' => $user->kota,
+            'alamat' => $user->alamat,
+            'tgl_lahir' => $user->tgl_lahir,
+            'jekel' => $user->jekel,
+            'telepon' => $user->telepon,
         ]);
     }
 
