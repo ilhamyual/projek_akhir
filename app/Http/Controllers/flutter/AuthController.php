@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Biodata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -49,9 +50,8 @@ class AuthController extends Controller
         ]);
     }
 
-    public function update(Request $request)
+public function update(Request $request)
 {
-    // Validasi data
     $validatedData = $request->validate([
         'nik' => 'required|numeric',
         'nama' => 'required|string|max:50',
@@ -71,29 +71,29 @@ class AuthController extends Controller
         'desa' => 'required|string',
         'rt' => 'nullable|string|max:10',
         'rw' => 'nullable|string|max:10',
+        'password' => 'nullable|string|min:8',
     ]);
 
-    // Ambil nilai nik dari data yang divalidasi
     $nik = $validatedData['nik'];
-
-    // Log nilai $nik untuk memeriksa nilai yang digunakan
     \Log::info("Requested NIK: $nik");
 
-    // Temukan data berdasarkan nik
     $dataRequest = Biodata::where('nik', $nik)->first();
 
-    // Jika data request tidak ditemukan, kirim response 404
     if (!$dataRequest) {
         \Log::error("Data not found for NIK: $nik");
         return response()->json(['message' => 'Data not found'], 404);
     }
 
-    // Perbarui data request dengan data yang divalidasi
+    if (isset($validatedData['password'])) {
+        $validatedData['password'] = Hash::make($validatedData['password']);
+    } else {
+        unset($validatedData['password']);
+    }
     $dataRequest->update($validatedData);
 
-    // Kirim response berhasil
     return response()->json(['message' => 'Data berhasil diperbarui'], 200);
 }
+
 
 
     

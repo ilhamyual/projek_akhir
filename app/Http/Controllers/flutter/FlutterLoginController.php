@@ -42,16 +42,23 @@ public function profile($nik)
 
         return response()->json([
             'success' => true,
+            'nik' => $user->nik,
             'name' => $user->nama,
+            'email' => $user->email,
+            'jekel' => $user->jekel,
             'kecamatan' => $user->kecamatan,
             'desa' => $user->desa,
-            'email' => $user->email,
-            'nik' => $user->nik,
             'kota' => $user->kota,
-            'alamat' => $user->alamat,
+            'tempat_lahir' => $user->tempat_lahir,
             'tgl_lahir' => $user->tgl_lahir,
-            'jekel' => $user->jekel,
+            'agama' => $user->agama,
+            'alamat' => $user->alamat,
             'telepon' => $user->telepon,
+            'status_warga' => $user->status_warga,
+            'warganegara' => $user->warganegara,
+            'status_nikah' => $user->status_nikah,
+            'rt' => $user->rt,
+            'rw' => $user->rw,
         ]);
     }
 
